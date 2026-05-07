@@ -1,8 +1,9 @@
 const imagemPrincipal = document.getElementById("imagemPrincipal");
 const lupa = document.getElementById("lupa");
 const container = document.getElementById("magnifierContainer");
+const lupaParent = lupa.parentElement;
 const zoom = 2.5;
-const lupaSize = 140;
+const lupaSize = 160;
 
 function trocarImagem(src) {
     imagemPrincipal.src = src;
@@ -25,8 +26,11 @@ container.addEventListener("mousemove", function (e) {
     const half = lupaSize / 2;
     const clampedX = Math.max(half, Math.min(w - half, x));
     const clampedY = Math.max(half, Math.min(h - half, y));
-    lupa.style.left = (clampedX - half) + 'px';
-    lupa.style.top = (clampedY - half) + 'px';
+    const parentRect = lupaParent.getBoundingClientRect();
+    const offsetX = rect.left - parentRect.left;
+    const offsetY = rect.top - parentRect.top;
+    lupa.style.left = (offsetX + clampedX - half) + 'px';
+    lupa.style.top = (offsetY + clampedY - half) + 'px';
 
     const bgX = (x / w) * 100;
     const bgY = (y / h) * 100;
